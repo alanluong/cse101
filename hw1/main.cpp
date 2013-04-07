@@ -1,6 +1,4 @@
 #include <algorithm>
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -8,28 +6,33 @@
 
 int main(int argc, char* argv[])
 {
-	srand(time(0));
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+	std::uniform_int_distribution<long long> dis;
+
 	std::vector<int> v;
 
 	std::string num(argv[2]);
 	std::stringstream ss(num);
-	int n;
+	long long n, range;
 	ss >> n;
 
-	if (argv[1] == "sorted") {
-		for (int i = 0; i < n; ++i) {
-			v.push_back(n);
-		}
+	if (std::string(argv[1]) == "small") {
+		range = n;
 	} else {
-		for (int i = 0; i < n; ++i) {
-			v.push_back(rand() % (int)1e6);
-		}
+		range = n * n * n;
+	}
+
+	for (int i = 0; i < n; ++i) {
+		v.push_back(1 + dis(gen) % range);
 	}
 
 	std::sort(v.begin(), v.end());
 
 	for (int i = 0; i < v.size(); ++i) {
 		for (int j = 0; j < v.size(); ++j) {
+			if (i == j) continue;
 			std::binary_search(v.begin(), v.end(), v[i] + v[j]);
 		}
 	}

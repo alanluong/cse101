@@ -40,7 +40,8 @@ int main(int argc, char* argv[])
 	}
 	std::cout << range << std::endl;
 	
-	if (argv[2] == "heap") {
+	std::cout << argv[2] << std::endl;
+	if (std::string(argv[2]) == "heap") {
 		useHeap = true;
 	}
 

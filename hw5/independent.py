@@ -35,8 +35,16 @@ def independent(graph):
 					if (u == w): degrees.remove((w, deg))
 			except:
 				pass
+	return result
 	print result
 
 if __name__ == "__main__":
-	graph = fill_graph(int(sys.argv[1]))
-	independent(graph)
+	n = int(sys.argv[1])
+	trials = int(sys.argv[2])
+	graph = fill_graph(n)
+
+	total = 0
+	for i in range(trials):
+		total += len(independent(graph))
+	print("total " + str(total))
+	print("average " + str(total / trials))

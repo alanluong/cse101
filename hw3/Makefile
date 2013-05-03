@@ -6,6 +6,8 @@ test: hw3
 	./hw3 8 bubble
 	./hw3 10 bubble
 	./hw3 12 bubble
+	./hw3 14 bubble
+	./hw3 16 bubble
 	./hw3 6 heap
 	./hw3 8 heap
 	./hw3 10 heap

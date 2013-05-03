@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 		std::vector<int> v;
 
 		for (int i = 0; i < range; ++i) {
-			v.push_back(1 + rand());
+			v.push_back(i);
 		}
 
 		if (useHeap) {

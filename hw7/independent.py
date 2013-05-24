@@ -1,4 +1,5 @@
 from random import randrange
+from copy import deepcopy
 import sys
 
 def fill_graph(n):
@@ -37,7 +38,26 @@ def independent(graph):
 				pass
 	return result
 
-independent2 = independent
+def del_neighbors(v, graph):
+	result = deepcopy(graph)
+	for e in result[v]:
+		result.pop(e, None)
+	result.pop(v, None)
+	return result
+
+def independent2(graph):
+	n = len(graph)
+	if n <= 1:
+		return n
+	for v, edges in graph.items():
+		in_graph = del_neighbors(v, graph)
+		in_count = independent2(in_graph) + 1
+
+		out_graph = deepcopy(graph)
+		out_graph.pop(v)
+		out_count = independent2(out_graph)
+		break
+	return max(in_count, out_count)
 
 if __name__ == "__main__":
 	n = int(sys.argv[1])
@@ -46,12 +66,13 @@ if __name__ == "__main__":
 
 	total1, total2 = 0, 0
 	for i in range(trials):
-		total1 = total1 + len(independent(graph))
-		total2 = total2 + len(independent(graph))
+		total1 += len(independent(graph))
+		total2 += independent2(graph)
 	
-	print("idependent1")
+	print("independent1")
 	print("total " + str(total1))
 	print("average " + str(total1 / trials))
-	print("\nidependent2")
+
+	print("\nindependent2")
 	print("total " + str(total2))
 	print("average " + str(total2 / trials))

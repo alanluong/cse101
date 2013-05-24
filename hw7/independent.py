@@ -1,6 +1,8 @@
 from random import randrange
 from copy import deepcopy
 import sys
+from pylab import *
+import math
 
 def fill_graph(n):
 	graph = {}
@@ -60,19 +62,36 @@ def independent2(graph):
 	return max(in_count, out_count)
 
 if __name__ == "__main__":
-	n = int(sys.argv[1])
-	trials = int(sys.argv[2])
-	graph = fill_graph(n)
-
-	total1, total2 = 0, 0
-	for i in range(trials):
-		total1 += len(independent(graph))
-		total2 += independent2(graph)
-	
-	print("independent1")
-	print("total " + str(total1))
-	print("average " + str(total1 / trials))
-
-	print("\nindependent2")
-	print("total " + str(total2))
-	print("average " + str(total2 / trials))
+    ns = []
+    result = []
+    result2 = []
+    for p in range(int(sys.argv[1])):
+        n = 2**p
+        ns += [n]
+        trials = int(sys.argv[2])
+        total = 0
+        totalSqr = 0
+        total2 = 0
+        totalSqr2 = 0
+        for i in range(trials):
+            graph = fill_graph(n)
+	    indie = len(independent(graph))
+	    indie2 = independent2(graph)
+            total += indie
+            totalSqr += indie * indie
+            total2 += indie2
+            totalSqr2 += indie2 * indie2
+        result += [(total/trials)]
+	result2 += [(total2/trials)]
+        Variance = totalSqr/trials - (total/trials)*(total/trials)
+        StdDev = sqrt(Variance)
+	Variance2 = totalSqr2/trials - (total2/trials)*(total2/trials)
+        StdDev2 = sqrt(Variance2)
+        print ("n = " + str(n) + "\t gI = " + str(total/trials) + "\t mI = "+ str(total2/trials))
+        print ("Variance = " + str(Variance) + "\t stdDev = " + str(StdDev))
+	print ("VarianceM = " + str(Variance2) + "\t stdDevM = " + str(StdDev2))
+    plot (ns, result, 'o-', ns, result2)
+    show()
+    subplot(111, xscale = "log", yscale = "log")
+    plot (ns, result, 'o-', ns, result2)
+    show()
